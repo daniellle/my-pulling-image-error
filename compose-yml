@@ -1,0 +1,7 @@
+services:
+  nonexistent:
+    labels:
+      shipyard.route: '/'
+    image: 'nosiridontexist:19339.6-alpine'
+    ports:
+      - '8090:8090'
