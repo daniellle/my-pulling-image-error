@@ -60,7 +60,9 @@ services:
     networks:
       - talkiatry_network # All of the containers will join the same Docker bridge network
     command: >
-      bash -c "whoami && ls-lrtah /usr/share/opensearch/data"
+      bash -c "
+       whoami &&
+       ls -lrtah /usr/share/opensearch/data"
   opensearch-node2:
     image: opensearchproject/opensearch:2.11.1 # This should be the same image used for opensearch-node1 to avoid issues
     container_name: opensearch-node2
@@ -85,7 +87,9 @@ services:
     networks:
       - talkiatry_network
     command: >
-      bash -c "sudo chmod 777 /usr/share/opensearch/data && /usr/share/opensearch/opensearch-docker-entrypoint.sh"
+      bash -c "
+       whoami &&
+       ls -lrtah /usr/share/opensearch/data"
   opensearch-dashboards:
     image: opensearchproject/opensearch-dashboards:2.11.1 # Make sure the version of opensearch-dashboards matches the version of opensearch installed on other nodes
     container_name: opensearch-dashboards
@@ -94,8 +98,8 @@ services:
     expose:
       - "5601" # Expose port 5601 for web access to OpenSearch Dashboards
     environment:
-      - OPENSEARCH_HOSTS:'["http://opensearch-node1:9200","http://opensearch-node2:9200"]' # Define the OpenSearch nodes that OpenSearch Dashboards will query
-      - DISABLE_SECURITY_PLUGIN=true
+      - OPENSEARCH_HOSTS:'http://opensearch-node1:9200,http://opensearch-node2:9200' # Define the OpenSearch nodes that OpenSearch Dashboards will query
+      - DISABLE_SECURITY_PLUGIN: 'false'
     networks:
       - talkiatry_network
 networks:
